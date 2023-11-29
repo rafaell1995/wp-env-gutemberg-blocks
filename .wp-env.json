@@ -1,0 +1,5 @@
+{
+    "core": "WordPress/WordPress",
+    "plugins": ["./plugins/my-first-block"],
+    "themes": ["./themes/meu-tema"]
+}
