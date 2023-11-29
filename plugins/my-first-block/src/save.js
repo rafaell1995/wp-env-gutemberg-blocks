@@ -4,7 +4,9 @@
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/packages/packages-block-editor/#useblockprops
  */
-import { useBlockProps } from '@wordpress/block-editor';
+import { useBlockProps, RichText } from '@wordpress/block-editor';
+
+import classnames from 'classnames';
 
 /**
  * The save function defines the way in which the different attributes should
@@ -15,10 +17,33 @@ import { useBlockProps } from '@wordpress/block-editor';
  *
  * @return {Element} Element to render.
  */
-export default function save() {
+export default function save( { attributes } ) {
+	
+	const { content, align, backgroundColor, textColor, kaLink, linkLabel, hasLinkNofollow } = attributes;
+
+	const blockProps = useBlockProps.save( {
+		className: `has-text-align-${ align }`
+	} );
+	
 	return (
-		<p { ...useBlockProps.save() }>
-			{ 'My First Block – hello from the saved content!' }
-		</p>
+		<div 
+			{ ...blockProps }
+			style={ { backgroundColor: backgroundColor } }
+		>
+			<RichText.Content 
+				tagName="p" 
+				value={ content } 
+				style={ { color: textColor } }
+			/>
+			<p>
+				<a 
+					href={ kaLink }
+					className="my-first-block-button"
+					rel={ hasLinkNofollow ? "nofollow" : "noopener noreferrer" }
+				>
+					{ linkLabel }
+				</a>
+			</p>
+		</div>
 	);
 }
